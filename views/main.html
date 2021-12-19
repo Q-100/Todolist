@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>제발 좀 해라</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/main.css">
+    <script>
+      let today = new Date(); 
+      let year = today.getFullYear(); // 년도
+      let month = today.getMonth() + 1;  // 월
+      let date = today.getDate();  // 날짜
+      let day = today.getDay();  // 요일
+      let test = 1;
+    </script>
+  </head>
+  <body class="mainbody">
+    <!-- <div class="container"> -->
+      <div class="profile-wrap">
+      </div>
+      <div class="timeline">
+        <div class="profile">
+          {% if user and user.id %}
+            <div class="user-name">{{user.nick + "님의 ToDo list"}}</div>
+          <!-- <input id="my-id" type="hidden" value="{{user.id}}"> -->
+          
+        {% else %}
+          <!-- <form id="login-form" action="/auth/login" method="post">
+            <div class="input-group">
+              <label for="email">아이디</label>
+              <input id="email" type="email" name="email" required autofocus>
+            </div>
+            <div class="input-group">
+              <label for="password">비밀번호</label>
+              <input id="password" type="password" name="password" required>
+            </div>
+            <a id="join" href="/join" class="btn">회원가입</a>
+            <button id="login" type="submit" class="btn">로그인</button>
+          </form> -->
+        {% endif %}
+        </div>
+        <div style="overflow: auto; width: 500px; height: 800px;">
+          <div class="twits">
+            <!-- <form id="hashtag-form" action="/hashtag">
+              <input type="text" name="hashtag" placeholder="태그 검색">
+              <button class="btn">검색</button>
+            </form> -->
+            {% for twit in twits %}
+              <div class="twit">
+                <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+                <input type="hidden" value="{{twit.id}}" class="twit-id">
+                <div class="date">등록시간 : {{twit.createdAt}}</div>
+                <button class="done">완료</button>
+                <div class="twit-content">{{twit.content}}</div>
+                <!-- <div class="twit-author">{{twit.User.nick}}</div> -->
+                  <!-- <button class="twit-follow">팔로우하기</button> -->
+                {% if twit.img %}
+                  <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% if user %}
+          <div>
+            <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
+              <div class="input-group">
+                <textarea id="twit" name="content" maxlength="140"></textarea>
+              </div>
+              <div class="btn_layout">
+                <button id="twit-btn" type="submit" class="btn">할일 추가</button>
+                <button id="twit-btn" type="button" class="btn" onclick="location.href='/auth/logout'" style="background-color: red;">로그아웃</button>
+              </div>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    <!-- </div> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      window.onload = () => {
+        if (new URL(location.href).searchParams.get('loginError')) {
+          alert(new URL(location.href).searchParams.get('loginError'));
+        }
+      };
+    </script>
+    <script>
+        // if (document.getElementById('img')) {
+        //   document.getElementById('img').addEventListener('change', function(e) {
+        //     const formData = new FormData();
+        //     console.log(this, this.files);
+        //     formData.append('img', this.files[0]);
+        //     axios.post('/post/img', formData)
+        //       .then((res) => {
+        //         document.getElementById('img-url').value = res.data.url;
+        //         document.getElementById('img-preview').src = res.data.url;
+        //         document.getElementById('img-preview').style.display = 'inline';
+        //       })
+        //       .catch((err) => {
+        //         console.error(err);
+        //       });
+        //   });
+        // }
+        document.querySelectorAll('.done').forEach(function(tag) {
+          tag.addEventListener('click', function() {
+            const myId = document.querySelector('#my-id');
+            console.log(tag.parentNode.querySelector('.twit-id').value);
+            con_id = tag.parentNode.querySelector('.twit-id').value;
+            axios.post(`user/${con_id}/delete`)
+            .then(() => {
+              location.reload();
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+
+
+            // if (myId) {
+            //   const userId = tag.parentNode.querySelector('.twit-id').value;
+            //   if (userId !== myId.value) {
+            //     if (confirm('팔로잉하시겠습니까?')) {
+            //       axios.post(`/user/${userId}/follow`)
+            //         .then(() => {
+            //           location.reload();
+            //         })
+            //         .catch((err) => {
+            //           console.error(err);
+            //         });
+            //     }
+            //   }
+            // }
+          });
+        });
+      </script>
+  </body>
+</html>
+

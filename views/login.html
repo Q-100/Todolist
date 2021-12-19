@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>제발 좀 해라</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+
+<body onload = "document.loginform.userid.focus();" class="mainbody">
+  <div class="login_wrap">
+      <div class="sec_wrapper">
+          <div class="login_sec">
+              <div class="login_logo">제발 좀 해라</div><hr style="width: 170px; border: 1px solid #bbb;">
+              <form name="loginform" method="post" action="/auth/login">
+              <input type="text" name="email" placeholder="아이디" maxlength='20' style="width: 310px" required /><br>
+              <input type="password" name="password" placeholder="비밀번호" maxlength='20' style="width: 310px" required /><br>
+              <div class="addtodo_buttonlist">
+                  <input type="button" value="회원가입" name="" onclick="location.href = '/join';" style="background: #efb64b; cursor: pointer;" onmouseover="this.style.textDecoration= 'underline';" onmouseout="this.style.textDecoration='none';">
+                  <input type="submit" value="로그인" name="" style="background: rgb(50, 162, 210); cursor: pointer; margin-right: 15px;" onclick="hide_addTodo()" onmouseover="this.style.textDecoration= 'underline';" onmouseout="this.style.textDecoration='none';">
+              </div>
+          </form>
+              
+          </div>
+      </div>
+  </div>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      window.onload = () => {
+        if (new URL(location.href).searchParams.get('loginError')) {
+          alert(new URL(location.href).searchParams.get('loginError'));
+        }
+      };
+    </script>
+</body>

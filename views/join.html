@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>제발 좀 해라</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+
+<body onload = "document.loginform.userid.focus();" class="mainbody">
+  <div class="login_wrap">
+      <div class="sec_wrapper">
+          <div class="login_sec">
+              <div class="login_logo">회원 가입</div><hr style="width: 170px; border: 1px solid #bbb;">
+              <form name="join-form" method="post" action="/auth/join">
+              <input id="idname" type="text" name="email" placeholder="아이디" maxlength='20' style="width: 250px" required /><br>
+              <input id="nick" type="text" name="nick" placeholder="닉네임" maxlength='20' style="width: 250px" required /><br>
+              <input type="password" name="password" placeholder="비밀번호" maxlength='20' style="width: 250px" required /><br>
+              <div class="addtodo_buttonlist">
+                  <input type="submit" value="회원가입" name="" style="background: #efb64b; cursor: pointer;" onmouseover="this.style.textDecoration= 'underline';" onmouseout="this.style.textDecoration='none';">
+              </div>
+          </form>
+              
+          </div>
+      </div>
+  </div>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      window.onload = () => {
+        if (new URL(location.href).searchParams.get('loginError')) {
+          alert(new URL(location.href).searchParams.get('loginError'));
+        }
+      };
+    </script>
+</body>
